@@ -1,0 +1,55 @@
+<html>
+    <body>
+        <head>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+          <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+          <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        </head>
+        <div><input type="checkbox" class='toggle' id='box2000' checked data-toggle="toggle"></div>
+        <div class='status' id='toggledbox2000'>On</div>
+        <div><input type="checkbox" class='toggle' id='box4000' checked data-toggle="toggle"></div>
+        <div class='status' id='toggledbox4000'>On</div>
+    </body>
+    <script>
+    $(document).ready(function() {
+        var port2000 = 'On'
+        var port4000 = 'On'
+        $('#box2000').change(function() {
+          var status = document.getElementById('toggledbox2000').innerHTML
+          if (status == 'On') {
+            $('#toggledbox2000').html('Off');
+          }
+          else {
+            $('#toggledbox2000').html('On');
+            $.ajax({
+              url: "/get_toggled_status",
+              type: "get",
+              data: {status: port2000, port: 2000},
+              success: function(response) {
+                $('#toggledbox2000').html('response');
+              }
+            });
+          }
+        });
+        $('#box4000').change(function() {
+          var status = document.getElementById('toggledbox4000').innerHTML
+          if (status == 'On') {
+            $('#toggledbox4000').html('Off');
+          }
+          else {
+            $('#toggledbox4000').html('On');
+            $.ajax({
+              url: "/get_toggled_status",
+              type: "get",
+              data: {status: port4000, port: 4000},
+              success: function(response) {
+                $('#toggledbox4000').html('response');
+              }
+            });
+          }
+        });
+      });
+    </script>
+</html>

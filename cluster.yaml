@@ -1,0 +1,16 @@
+whisk:
+  ingress:
+    type: NodePort
+    apiHostName: 10.192.0.3
+    apiHostPort: 31001
+
+nginx:
+  httpsNodePort: 31001
+
+invoker:
+  containerFactory:
+    dind: true
+
+k8s:
+  persistence:
+    enabled: false

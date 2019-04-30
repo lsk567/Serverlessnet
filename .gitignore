@@ -1,0 +1,4 @@
+simulation/shell/connect_metro1.sh
+simulation/shell/connect_beagle.sh
+python_scripts/__pycache__/
+.vscode
