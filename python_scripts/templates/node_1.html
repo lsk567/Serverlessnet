@@ -6,109 +6,45 @@
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
           <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
           <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+          <link rel="stylesheet" href="../static/node_1.css">
         </head>
-        <div><input type="checkbox" class='toggle' id='box80' checked data-toggle="toggle"></div>
-        <div class='status' id='toggledbox80'>On</div>
-        <div><input type="checkbox" class='toggle' id='box6379' checked data-toggle="toggle"></div>
-        <div class='status' id='toggledbox6379'>On</div>
-        <div><input type="checkbox" class='toggle' id='box5984' checked data-toggle="toggle"></div>
-        <div class='status' id='toggledbox5984'>On</div>
-        <div><input type="checkbox" class='toggle' id='box3888' checked data-toggle="toggle"></div>
-        <div class='status' id='toggledbox3888'>On</div>
-        <div><input type="checkbox" class='toggle' id='box9001' checked data-toggle="toggle"></div>
-        <div class='status' id='toggledbox9001'>On</div>
+        <div><input type="checkbox" class='toggle' id='box4000' checked data-toggle="toggle"></div>
+        <div class='status' id='toggledbox4000'>On</div>
+    <div class="blue", id="circle0"></div>
     </body>
     <script>
     $(document).ready(function() {
-        var port80 = 'On'
-        var port6379 = 'On'
-        var port5984 = 'On'
-        var port3888 = 'On'
-        var port9001 = 'On'
-        $('#box80').change(function() {
-          var status = document.getElementById('toggledbox80').innerHTML
+        var port4000 = 'On'
+        $('#box4000').change(function() {
+          var status = document.getElementById('toggledbox4000').innerHTML
           if (status == 'On') {
-            $('#toggledbox80').html('Off');
+            $('#toggledbox4000').html('Off');
           }
           else {
-            $('#toggledbox80').html('On');
-            $.ajax({
-              url: "/get_toggled_status",
-              type: "get",
-              data: {status: port80, port: 80},
-              success: function(response) {
-                $('#toggledbox80').html('response');
-              }
+            $('#toggledbox4000').html('On');
+          }
+          $.ajax({
+                url: "/get_toggled_status",
+                type: "GET",
+                data: {status: status, port: 4000},
             });
+          $.ajax({
+            type: "GET",
+            url: "http://localhost:5000/access",
+            success: function(response) {
+                console.log(response);
+                response = JSON.parse(response);
+                console.log(response);
+                if (Object.keys(response).indexOf("actuator1") >= 0){
+                    if (response["actuator1"] == 1) {
+                        $("#circle0").attr("class", "black");
+                    }
+                    else {
+                        $("#circle0").attr("class", "blue");
+                    }
+                }
           }
         });
-        $('#box6379').change(function() {
-          var status = document.getElementById('toggledbox6379').innerHTML
-          if (status == 'On') {
-            $('#toggledbox6379').html('Off');
-          }
-          else {
-            $('#toggledbox6379').html('On');
-            $.ajax({
-              url: "/get_toggled_status",
-              type: "get",
-              data: {status: port6379, port: 6379},
-              success: function(response) {
-                $('#toggledbox6379').html('response');
-              }
-            });
-          }
-        });
-        $('#box5984').change(function() {
-          var status = document.getElementById('toggledbox5984').innerHTML
-          if (status == 'On') {
-            $('#toggledbox5984').html('Off');
-          }
-          else {
-            $('#toggledbox5984').html('On');
-            $.ajax({
-              url: "/get_toggled_status",
-              type: "get",
-              data: {status: port5984, port: 5984},
-              success: function(response) {
-                $('#toggledbox5984').html('response');
-              }
-            });
-          }
-        });
-        $('#box3888').change(function() {
-          var status = document.getElementById('toggledbox3888').innerHTML
-          if (status == 'On') {
-            $('#toggledbox3888').html('Off');
-          }
-          else {
-            $('#toggledbox3888').html('On');
-            $.ajax({
-              url: "/get_toggled_status",
-              type: "get",
-              data: {status: port3888, port: 3888},
-              success: function(response) {
-                $('#toggledbox3888').html('response');
-              }
-            });
-          }
-        });
-        $('#box9001').change(function() {
-          var status = document.getElementById('toggledbox9001').innerHTML
-          if (status == 'On') {
-            $('#toggledbox9001').html('Off');
-          }
-          else {
-            $('#toggledbox9001').html('On');
-            $.ajax({
-              url: "/get_toggled_status",
-              type: "get",
-              data: {status: port9001, port: 9001},
-              success: function(response) {
-                $('#toggledbox9001').html('response');
-              }
-            });
-          }
         });
       });
     </script>

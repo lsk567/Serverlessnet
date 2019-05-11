@@ -4,7 +4,7 @@ function main(params) {
     // sends a request back to relayer app
     var options = {
         method: 'POST',
-        uri: 'http://172.17.0.1:4997/relay',
+        uri: 'http://172.17.0.1:4997/relay', // Directly trigger actuator to test
         body: {
             target: 'http://172.17.0.1:4998/state' // To generalize this, receive a target thorugh param, hard code for now
         },

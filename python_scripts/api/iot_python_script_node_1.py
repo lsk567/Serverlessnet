@@ -7,11 +7,25 @@ import os
 
 app = Flask(__name__)
 
+@app.route('/give_state', methods=['POST'])
+def give_state():
+    data = {}
+    for key in request.form.keys():
+        data[key] = request.form[key]
+
+    temp = requests.post(url="http://172.17.0.1:4000/", data=data)
+    return 200
+
+@app.route('/get_state', methods=['GET'])
+def get_state():
+    result = requests.get(url='http://172.17.0.1:4000/state')
+    return result.text
+
 @app.route('/', methods=['POST'])
 def node_1():
     # post data to OpenWhisk
     for key in request.form.keys():
-        if "docker" in key:
+        if "proxy" in key:
             requests.post(url=request.form[key])
 
     return "ok"
@@ -22,7 +36,7 @@ def node_1_get():
 
     # gets all the port numbers
     out1 = subprocess.Popen(["docker", "ps"], stdout=subprocess.PIPE)
-    out2 = subprocess.Popen(["egrep", "docker*"], stdin=out1.stdout, stdout=subprocess.PIPE)
+    out2 = subprocess.Popen(["egrep", "proxy*"], stdin=out1.stdout, stdout=subprocess.PIPE)
     out3 = subprocess.Popen(["sed", "-e", "s/[ ]\+/,/g"], stdin=out2.stdout, stdout=subprocess.PIPE)
     out4 = subprocess.Popen(["grep", "-o", "[^,]*,[^,]*$"], stdin=out3.stdout, stdout=subprocess.PIPE)
     out5 = subprocess.Popen(["grep", "-o", "^.*,"], stdin=out4.stdout, stdout=subprocess.PIPE)
@@ -40,4 +54,4 @@ def node_1_get():
     return json.dumps({'port_numbers': port_numbers})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port='4001')

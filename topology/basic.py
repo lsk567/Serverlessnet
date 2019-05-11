@@ -23,22 +23,22 @@ net.addController('c0')
 info('*** Adding docker containers using ubuntu:trusty images\n')
 d1 = net.addDocker('d1',
                    dimage="lsk567/lambda_switch",
-                   ports=[4999], # docker host ports to be opened
-                   port_bindings={4999:4999}, # { docker host port : machine port }
+                   ports=[5000], # docker host ports to be opened
+                   port_bindings={5000:4999}, # { docker host port : machine port }
                    dcmd="python -u switch.py",
                    publish_all_ports=True)
 
 d2 = net.addDocker('d2',
                    dimage="lsk567/lambda_relayer",
-                   ports=[4997],
-                   port_bindings={4997:4997},
+                   ports=[5000],
+                   port_bindings={5000:4997},
                    dcmd="python -u relayer.py",
                    publish_all_ports=True)
             
 d3 = net.addDocker('d3',
                    dimage="lsk567/lambda_actuator",
-                   ports=[4998],
-                   port_bindings={4998:4998},
+                   ports=[5000],
+                   port_bindings={5000:4998},
                    dcmd="python -u actuator.py",
                    publish_all_ports=True)
 

@@ -1,5 +1,6 @@
-from flask import Flask
+from flask import Flask, request
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -25,6 +26,7 @@ def send():
     # In an ideal case, namespace and action should be parsed from requests from switch
     NAMESPACE = 'guest'
     ACTION = 'flip_switch'
+    # ACTION = 'hello_world'
     # NAMESPACE = data["namespace"]
     # ACTION = data["action"]
 
@@ -68,18 +70,18 @@ def test():
 @app.route('/relay', methods=['POST'])
 def relay():
     # Receive request from OpenWhisk
-    data = requests.form
+    data = json.loads(request.data.decode("utf-8"))
     actuatorUrl = data["target"]
+    print(actuatorUrl)
     # uiApiURL = None
 
     # Forward action to actuator
     res = requests.post(url=actuatorUrl)
-    print(res)
 
     # Send the update to UI API
     # requests.post(uiApiURL, json=res)
     
-    return 200
+    return res.text, 200
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=4997)
+    app.run(debug=True,host='0.0.0.0',port=5000)
